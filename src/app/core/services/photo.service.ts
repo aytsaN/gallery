@@ -3,6 +3,7 @@ import { Observable, from } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { Photo } from '../models/photo.model';
+import { environment } from 'src/environments/environment';
 
 interface PicsumPhoto {
   id: string;
@@ -22,8 +23,10 @@ function randomDelay() {
  */
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
+  private readonly apiUrl = environment.photoApiUrl;
+
   getPhotos(page: number, limit = 9): Observable<Photo[]> {
-    const url = `https://picsum.photos/v2/list?page=${page}&limit=${limit}`;
+    const url = `${this.apiUrl}?page=${page}&limit=${limit}`;
     const photos = fetch(url)
       .then(response => response.json() as Promise<PicsumPhoto[]>)
       .then(data =>
