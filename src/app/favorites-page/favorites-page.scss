@@ -1,0 +1,5 @@
+@use 'src/app/shared/photo-tile' as tile;
+
+.tile {
+  @include tile.photo-tile-base(1.1, 0.2s);
+}

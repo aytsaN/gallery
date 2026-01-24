@@ -1,0 +1,18 @@
+<mat-grid-list cols="2" gutterSize="20px">
+  @for (photo of photos; track photo.id) {
+  <mat-grid-tile
+    class="tile"
+    tabindex="0"
+    matTooltipPosition="above"
+    matTooltip="Open Photo"
+    [ariaLabel]="'Open photo of ' + photo.author"
+    (click)="openPhoto(photo.id)">
+    <div class="tile__background" [style.backgroundImage]="'url(' + photo.download_url + ')'"></div>
+    <img
+      class="tile__image"
+      width="80%"
+      [src]="photo.download_url"
+      [alt]="'Photo by ' + photo.author" />
+  </mat-grid-tile>
+  }
+</mat-grid-list>

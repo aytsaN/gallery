@@ -1,0 +1,19 @@
+<header class="header">
+  <nav class="navigation">
+    <a
+      #rlaPhotos="routerLinkActive"
+      routerLink="/"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{exact: true}"
+      [matButton]="rlaPhotos.isActive ? 'filled' : 'elevated'"
+      >Photos</a
+    >
+    <a
+      #rlaFavorites="routerLinkActive"
+      routerLink="/favorites"
+      routerLinkActive="active-link"
+      [matButton]="rlaFavorites.isActive ? 'filled' : 'elevated'"
+      >Favorites</a
+    >
+  </nav>
+</header>

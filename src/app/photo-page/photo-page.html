@@ -1,0 +1,26 @@
+<mat-grid-list cols="3" gutterSize="10px">
+  @for (photo of photos(); track photo.id) {
+  <mat-grid-tile
+    class="tile"
+    tabindex="0"
+    matTooltipPosition="above"
+    matTooltip="Add to Favorites"
+    aria-label="'Add photo to favorites"
+    (click)="addPhotoToFavorites(photo)">
+    <div class="tile__background" [style.backgroundImage]="'url(' + photo.download_url + ')'"></div>
+    <img
+      class="tile__image"
+      width="80%"
+      [src]="photo.download_url"
+      [alt]="'Photo by ' + photo.author" />
+  </mat-grid-tile>
+  }
+</mat-grid-list>
+
+<div #sentinel class="sentinel"></div>
+
+@if (isLoading()) {
+<div class="loader">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
+}

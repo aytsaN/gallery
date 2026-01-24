@@ -1,0 +1,12 @@
+@if (!photo()) {
+<div class="empty-message">
+  <p>Photo not found in Favorites</p>
+</div>
+} @else {
+<figure class="image-container">
+  <img class="image" [src]="photo()?.download_url" [alt]="'Photo by ' + photo()?.author" />
+  <figcaption>Photo by {{ photo()?.author }}</figcaption>
+</figure>
+
+<button matButton="outlined" (click)="removePhotoFromFavorites()">Remove from Favorites</button>
+}

@@ -1,0 +1,21 @@
+@mixin photo-tile-base($hover-scale: 1.05, $transition-speed: 0.1s) {
+  cursor: pointer;
+
+  &:hover .tile__image {
+    scale: $hover-scale;
+    transition: scale $transition-speed ease-in-out;
+  }
+
+  .tile__background {
+    background-position: center;
+    background-size: 200%;
+    filter: blur(2px);
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+
+  .tile__image {
+    z-index: 10;
+  }
+}

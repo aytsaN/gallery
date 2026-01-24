@@ -1,0 +1,15 @@
+@use 'src/app/shared/photo-tile' as tile;
+
+.sentinel {
+  height: 10px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.tile {
+  @include tile.photo-tile-base();
+}

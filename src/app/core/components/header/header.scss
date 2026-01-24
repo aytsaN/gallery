@@ -1,0 +1,12 @@
+.header {
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+
+  .navigation {
+    column-gap: 16px;
+    display: flex;
+  }
+}
