@@ -7,6 +7,7 @@ import {
   viewChild,
   OnInit,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntil } from 'rxjs/operators';
@@ -28,6 +29,7 @@ import { Photo } from '../core/models/photo.model';
   imports: [CommonModule, MatGridListModule, MatTooltipModule, MatProgressSpinnerModule],
   templateUrl: './photo-page.html',
   styleUrl: './photo-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoPage implements OnInit, AfterViewInit, OnDestroy {
   private readonly sentinel = viewChild<ElementRef>('sentinel');

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -15,6 +15,7 @@ import { FavoritesService } from '../core/services/favorites.service';
   imports: [CommonModule, MatGridListModule, MatTooltipModule],
   templateUrl: './favorites-page.html',
   styleUrl: './favorites-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FavoritesPage {
   private readonly favoritesService = inject(FavoritesService);

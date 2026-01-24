@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -11,5 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [RouterModule, MatButtonModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {}
