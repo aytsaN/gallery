@@ -1,8 +1,9 @@
-import { Component, input, inject, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { FavoritesService } from '../core/services/favorites.service';
 import { MatAnchor } from '@angular/material/button';
+import { FavoritesService } from '../core/services/favorites.service';
 
 @Component({
   selector: 'app-photo-details-page',
@@ -15,6 +16,7 @@ export class PhotoDetailsPage {
   id = input.required<string>();
 
   private readonly favoritesService = inject(FavoritesService);
+  private readonly route = inject(Router);
 
   protected readonly photo = computed(() => {
     const photoId = this.id();
@@ -25,5 +27,6 @@ export class PhotoDetailsPage {
     if (!this.id()) return;
 
     this.favoritesService.remove(this.id()!);
+    this.route.navigateByUrl('/favorites');
   }
 }

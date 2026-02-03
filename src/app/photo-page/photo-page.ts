@@ -1,74 +1,63 @@
-import {
-  Component,
-  inject,
-  signal,
-  AfterViewInit,
-  ElementRef,
-  viewChild,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { InfiniteScroll } from '../core/directives/infinite-scroll';
+import { Photo } from '../core/models/photo.model';
 import { FavoritesService } from '../core/services/favorites.service';
 import { PhotoService } from '../core/services/photo.service';
-import { Photo } from '../core/models/photo.model';
 
 /**
  * Photo page component.
  */
 @Component({
   selector: 'app-photo-page',
-  imports: [CommonModule, MatGridListModule, MatTooltipModule, MatProgressSpinnerModule],
+  imports: [
+    CommonModule,
+    MatGridListModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    InfiniteScroll,
+  ],
   templateUrl: './photo-page.html',
   styleUrl: './photo-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PhotoPage implements OnInit, AfterViewInit, OnDestroy {
+export class PhotoPage implements OnInit {
   private readonly sentinel = viewChild<ElementRef>('sentinel');
 
   private readonly photoService = inject(PhotoService);
   private readonly favoritesService = inject(FavoritesService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  private destroy$ = new Subject<void>();
   private page = 1;
   protected readonly photos = signal<Photo[]>([]);
   protected readonly isLoading = signal(false);
-  private observer?: IntersectionObserver;
 
   ngOnInit() {
     this.loadMorePhotos(15);
   }
 
-  ngAfterViewInit() {
-    const sentinelEl = this.sentinel();
-    if (sentinelEl) {
-      this.observer = new IntersectionObserver(
-        entries => {
-          if (entries[0].isIntersecting && !this.isLoading()) {
-            this.loadMorePhotos();
-          }
-        },
-        { threshold: 1.0 },
-      );
-      this.observer.observe(sentinelEl.nativeElement);
-    }
-  }
-
-  private loadMorePhotos(limit: number = 9) {
+  protected loadMorePhotos(limit = 9) {
     if (this.isLoading()) return;
 
     this.isLoading.set(true);
     this.photoService
       .getPhotos(this.page, limit)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: newPhotos => {
           this.photos.update(currentPhotos => [...currentPhotos, ...newPhotos]);
@@ -83,11 +72,5 @@ export class PhotoPage implements OnInit, AfterViewInit, OnDestroy {
 
   protected addPhotoToFavorites(photo: Photo) {
     this.favoritesService.add(photo);
-  }
-
-  ngOnDestroy() {
-    this.observer?.disconnect();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

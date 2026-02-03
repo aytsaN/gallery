@@ -7,20 +7,22 @@
     matTooltip="Add to Favorites"
     aria-label="'Add photo to favorites"
     (click)="addPhotoToFavorites(photo)">
-    <div class="tile__background" [style.backgroundImage]="'url(' + photo.download_url + ')'"></div>
+    <div
+      class="tile__background"
+      [style.backgroundImage]="'url(' + photo.download_url_small + '?blur=1)'"></div>
     <img
       class="tile__image"
       width="80%"
-      [src]="photo.download_url"
+      [src]="photo.download_url_small"
       [alt]="'Photo by ' + photo.author" />
   </mat-grid-tile>
   }
 </mat-grid-list>
 
-<div #sentinel class="sentinel"></div>
-
-@if (isLoading()) {
-<div class="loader">
-  <mat-spinner diameter="50"></mat-spinner>
+<div appInfiniteScroll (scrolled)="loadMorePhotos()" class="sentinel loading-trigger">
+  @if (isLoading()) {
+  <div class="loader">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+  }
 </div>
-}

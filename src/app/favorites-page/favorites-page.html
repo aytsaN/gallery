@@ -7,11 +7,13 @@
     matTooltip="Open Photo"
     [ariaLabel]="'Open photo of ' + photo.author"
     (click)="openPhoto(photo.id)">
-    <div class="tile__background" [style.backgroundImage]="'url(' + photo.download_url + ')'"></div>
+    <div
+      class="tile__background"
+      [style.backgroundImage]="'url(' + photo.download_url_small + '?blur=1)'"></div>
     <img
       class="tile__image"
       width="80%"
-      [src]="photo.download_url"
+      [src]="photo.download_url_small"
       [alt]="'Photo by ' + photo.author" />
   </mat-grid-tile>
   }

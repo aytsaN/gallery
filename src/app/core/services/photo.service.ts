@@ -34,6 +34,7 @@ export class PhotoService {
           id: item.id,
           author: item.author,
           download_url: item.download_url,
+          download_url_small: `https://picsum.photos/id/${item.id}/300/200`,
         })),
       );
 
